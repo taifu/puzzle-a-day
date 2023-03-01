@@ -1,0 +1,5 @@
+*.pyc
+*.swp
+a.out
+.cache*
+__pycache__
