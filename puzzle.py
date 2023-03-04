@@ -1,5 +1,5 @@
 import argparse
-from helpers import solve
+from board import Board
 
 
 if __name__ == "__main__":
@@ -14,4 +14,5 @@ if __name__ == "__main__":
     if args.day > 30 and not args.month in (1, 3, 5, 7, 8, 10, 12) or args.day > 29 and args.month == 2:
         if not args.force:
             raise Exception(f"Invalid combination of day and month: {args.day}, {args.month}")
-    solve(day=args.day, month=args.month)
+    board = Board()
+    board.solve(day=args.day, month=args.month)

@@ -1,3 +1,49 @@
+class Pentomino:
+    F = ((0, 1, 1), 
+         (1, 1, 0),  
+         (0, 1, 0))
+    I = ((1,), 
+         (1,),  
+         (1,),  
+         (1,),  
+         (1,))
+    L = ((1, 0), 
+         (1, 0),
+         (1, 0),
+         (1, 1))  
+    N = ((0, 1), 
+         (1, 1),
+         (1, 0),
+         (1, 0))
+    P = ((1, 1), 
+         (1, 1),
+         (1, 0))
+    T = ((1, 1, 1), 
+         (0, 1, 0),
+         (0, 1, 0))  
+    U = ((1, 0, 1), 
+         (1, 1, 1))  
+    V = ((1, 0, 0), 
+         (1, 0, 0),
+         (1, 1, 1))  
+    W = ((1, 0, 0), 
+         (1, 1, 0),
+         (0, 1, 1))  
+    X = ((0, 1, 0), 
+         (1, 1, 1),  
+         (0, 1, 0))
+    Y = ((0, 1), 
+         (1, 1),  
+         (0, 1),
+         (0, 1))
+    Z = ((1, 1, 0), 
+         (0, 1, 0), 
+         (0, 1, 1))
+    ESA = ((1, 1),
+           (1, 1),
+           (1, 1))
+
+
 class Board:
     """
      0   1   2   3   4   5
@@ -43,6 +89,13 @@ class Board:
                       (1, 1, 1, 1, 1, 1, 1), # Day 22-28
                       (1, 1, 1, 0, 0, 0, 0), # Day 29-31
                       )
+        self.pieces = Pentomino()
+
+    def rotate(self, piece):
+        return tuple(tuple(row[::-1]) for row in zip(*piece))
+
+    def reflect(self, piece):
+        return tuple(tuple(row[::-1]) for row in piece)
 
     def get_date(self, day, month):
         board = []
@@ -59,3 +112,9 @@ class Board:
                     row[(day - 1) % 7] = 0
             board.append(tuple(row))
         return tuple(board)
+
+    def solve(self, day, month):
+        board = self.get_date(day, month)
+        # Calcolare tutti i possibili piazzamenti nella board di tutte le
+        # rotazioni e riflessioni di 
+        print(day, month)
