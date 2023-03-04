@@ -115,6 +115,8 @@ class Board:
 
     def solve(self, day, month):
         board = self.get_date(day, month)
-        # Calcolare tutti i possibili piazzamenti nella board di tutte le
-        # rotazioni e riflessioni di 
+        # 1) Calcolare tutti i possibili piazzamenti nella board di tutte le
+        # rotazioni e riflessioni dei pezzi
+        # 2) Costruire gli oggetti per l'algoritmo Dancing Links
+        # 3) Cercare la soluzione e stamparla
         print(day, month)
