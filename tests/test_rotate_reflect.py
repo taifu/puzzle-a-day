@@ -91,3 +91,8 @@ class TestRotateReflect(unittest.TestCase):
             rotations_reflections.add(rot)
             rot = self.board.rotate(self.board.reflect(rot))
         self.assertEqual(len(rotations_reflections), 8)
+
+    def test_board_rotations_reflections_X(self):
+        rotations_reflections = self.board.get_rotations_reflections(Pentomino.X)
+        self.assertEqual(set(rotations_reflections), set((Pentomino.X,)))
+

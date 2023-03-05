@@ -39,9 +39,6 @@ class Pentomino:
     Z = ((1, 1, 0), 
          (0, 1, 0), 
          (0, 1, 1))
-    ESA = ((1, 1),
-           (1, 1),
-           (1, 1))
 
 
 class Board:
@@ -89,13 +86,81 @@ class Board:
                       (1, 1, 1, 1, 1, 1, 1), # Day 22-28
                       (1, 1, 1, 0, 0, 0, 0), # Day 29-31
                       )
-        self.pieces = Pentomino()
+        self.ESA = ((1, 1),
+                    (1, 1),
+                    (1, 1))
 
     def rotate(self, piece):
         return tuple(tuple(row[::-1]) for row in zip(*piece))
 
     def reflect(self, piece):
         return tuple(tuple(row[::-1]) for row in piece)
+
+    def get_rotations_reflections(self, piece):
+        rotations_reflections = []
+        rot_ref = piece[:]
+        for x in range(4):
+            if not rot_ref in rotations_reflections:
+                rotations_reflections.append(rot_ref)
+            rot_ref = self.reflect(rot_ref)
+            if not rot_ref in rotations_reflections:
+                rotations_reflections.append(rot_ref)
+            rot_ref = self.rotate(self.reflect(rot_ref))
+        return rotations_reflections
+
+    def get_positions(self, board, piece):
+        positions = []
+        for y, board_row in enumerate(board):
+            for x, board_cell in enumerate(board_row):
+                ok = True
+                for dy, piece_row in enumerate(piece):
+                    for dx, piece_cell in enumerate(piece_row):
+                        try:
+                            if piece_cell and not board[y + dy][x + dx]:
+                                ok = False
+                                break
+                        except IndexError:
+                            ok = False
+                    if not ok:
+                        break
+                if ok:
+                    positions.append((x, y))
+        return positions
+
+    def get_matrix_rows(self, board, piece):
+        positions = self.get_positions(board, piece)
+        rows = []
+        for px, py in positions:
+            occupied = []
+            for dy, piece_row in enumerate(piece):
+                for dx, piece_cell in enumerate(piece_row):
+                    if piece_cell:
+                        occupied.append((px + dx, py + dy))
+            row = []
+            for y, board_row in enumerate(board):
+                for x, board_cell in enumerate(board_row):
+                    if board_cell:
+                        row.append(1 if (x, y) in occupied else 0)
+            rows.append(tuple(row))
+        return(rows)
+
+    def get_matrix_all_rows(self, board, piece):
+        rows = []
+        for piece in self.get_rotations_reflections(piece):
+            positions = self.get_positions(board, piece)
+            for px, py in positions:
+                occupied = []
+                for dy, piece_row in enumerate(piece):
+                    for dx, piece_cell in enumerate(piece_row):
+                        if piece_cell:
+                            occupied.append((px + dx, py + dy))
+                row = []
+                for y, board_row in enumerate(board):
+                    for x, board_cell in enumerate(board_row):
+                        if board_cell:
+                            row.append(1 if (x, y) in occupied else 0)
+                rows.append(tuple(row))
+        return(rows)
 
     def get_date(self, day, month):
         board = []
@@ -115,6 +180,8 @@ class Board:
 
     def solve(self, day, month):
         board = self.get_date(day, month)
+        pieces = self.pieces
+
         # 1) Calcolare tutti i possibili piazzamenti nella board di tutte le
         # rotazioni e riflessioni dei pezzi
         # 2) Costruire gli oggetti per l'algoritmo Dancing Links
