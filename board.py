@@ -182,8 +182,11 @@ class Board:
         board = self.get_date(day, month)
         pieces = self.pieces
 
+        # 0) Scrivere l'header con tutti i pezzi
         # 1) Calcolare tutti i possibili piazzamenti nella board di tutte le
         # rotazioni e riflessioni dei pezzi
+        #    1.1) Per tutti i pezzi, prendere get_matrix_all_rows, aggiungere
+        #         la parte sinistra dei pezzi e sommare
         # 2) Costruire gli oggetti per l'algoritmo Dancing Links
         # 3) Cercare la soluzione e stamparla
         print(day, month)
