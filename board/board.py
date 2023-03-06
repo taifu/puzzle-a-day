@@ -144,7 +144,7 @@ class Board:
             rows.append(tuple(row))
         return(rows)
 
-    def get_matrix_all_rows(self, board, piece):
+    def get_matrix_all_rows(self, board, piece, left_part_row=None):
         rows = []
         for piece in self.get_rotations_reflections(piece):
             positions = self.get_positions(board, piece)
@@ -159,7 +159,7 @@ class Board:
                     for x, board_cell in enumerate(board_row):
                         if board_cell:
                             row.append(1 if (x, y) in occupied else 0)
-                rows.append(tuple(row))
+                rows.append((left_part_row or ()) + tuple(row))
         return(rows)
 
     def get_date(self, day, month):
@@ -183,10 +183,23 @@ class Board:
         pieces = (self.ESA, Pentomino.L, Pentomino.N, Pentomino.P, Pentomino.U, Pentomino.V, Pentomino.Y, Pentomino.Z)
 
         # 0) Scrivere l'header con tutti i pezzi
+        #TODO
+
         # 1) Calcolare tutti i possibili piazzamenti nella board di tutte le
         # rotazioni e riflessioni dei pezzi
-        #    1.1) Per tutti i pezzi, prendere get_matrix_all_rows, aggiungere
-        #         la parte sinistra dei pezzi e sommare
+        #TODO
+
+        #    1.1) Per tutti i pezzi, prendere get_matrix_all_rows
+        #         e aggiungere la parte sinistra ad ogni riga (per i pezzi)
+        rows = []
+        for n, piece in enumerate(pieces):
+            left_part_row = tuple(1 if m == n else 0 for m in range(len(pieces)))
+            rows.extend(self.get_matrix_all_rows(board, piece, left_part_row))
+
         # 2) Costruire gli oggetti per l'algoritmo Dancing Links
+        #TODO
+
         # 3) Cercare la soluzione e stamparla
+        #TODO
+
         print(day, month)
