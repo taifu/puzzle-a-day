@@ -43,39 +43,39 @@ class Pentomino:
 
 class Board:
     """
-     0   1   2   3   4   5
-   +-----------------------+
- 0 |Jan|Feb|Mar|Apr|May|Jun|
-   +---+---+---+---+---+---+
- 1 |Jul|Aug|Sep|Oct|Nov|Dec| 6
-   +---+---+---+---+---+---+---+
- 2 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-   +---+---+---+---+---+---+---+
- 3 | 8 | 9 | 10| 11| 12| 13| 14|
-   +---+---+---+---+---+---+---+
- 4 | 15| 16| 17| 18| 19| 20| 21|
-   +---+---+---+---+---+---+---+
- 5 | 22| 23| 24| 25| 26| 27| 28|
-   +---+---+---+---+---+---+---+
- 6 | 29| 30| 31|
-   +-----------+
+        0   1   2   3   4   5
+      +-----------------------+
+    0 |Jan|Feb|Mar|Apr|May|Jun|
+      +---+---+---+---+---+---+
+    1 |Jul|Aug|Sep|Oct|Nov|Dec| 6
+      +---+---+---+---+---+---+---+
+    2 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+      +---+---+---+---+---+---+---+
+    3 | 8 | 9 | 10| 11| 12| 13| 14|
+      +---+---+---+---+---+---+---+
+    4 | 15| 16| 17| 18| 19| 20| 21|
+      +---+---+---+---+---+---+---+
+    5 | 22| 23| 24| 25| 26| 27| 28|
+      +---+---+---+---+---+---+---+
+    6 | 29| 30| 31|
+      +-----------+
 
-   +-----------------------+
-   |0,0|1,0|2,0|3,0|4,0|5,0|
-   +---+---+---+---+---+---+
-   |0,1|1,1|2,1|3,1|4,1|5,1|
-   +---+---+---+---+---+---+---+
-   |0,2|1,2|2,2|3,2|4,2|5,2|6,2|
-   +---+---+---+---+---+---+---+
-   |0,3|1,3|2,3|3,3|4,3|5,3|6,3|
-   +---+---+---+---+---+---+---+
-   |0,4|1,4|2,4|3,4|4,4|5,4|6,4|
-   +---+---+---+---+---+---+---+
-   |0,5|1,5|2,5|3,5|4,5|5,5|6,5|
-   +---+---+---+---+---+---+---+
-   |0,6|1,6|2,6|
-   +-----------+
-   """
+      +-----------------------+
+      |0,0|1,0|2,0|3,0|4,0|5,0|
+      +---+---+---+---+---+---+
+      |0,1|1,1|2,1|3,1|4,1|5,1|
+      +---+---+---+---+---+---+---+
+      |0,2|1,2|2,2|3,2|4,2|5,2|6,2|
+      +---+---+---+---+---+---+---+
+      |0,3|1,3|2,3|3,3|4,3|5,3|6,3|
+      +---+---+---+---+---+---+---+
+      |0,4|1,4|2,4|3,4|4,4|5,4|6,4|
+      +---+---+---+---+---+---+---+
+      |0,5|1,5|2,5|3,5|4,5|5,5|6,5|
+      +---+---+---+---+---+---+---+
+      |0,6|1,6|2,6|
+      +-----------+
+    """
 
     def __init__(self):
         self.board = ((1, 1, 1, 1, 1, 1, 0), # Month Jan-Jun
@@ -182,24 +182,22 @@ class Board:
         board = self.get_date(day, month)
         pieces = (self.ESA, Pentomino.L, Pentomino.N, Pentomino.P, Pentomino.U, Pentomino.V, Pentomino.Y, Pentomino.Z)
 
-        # 0) Scrivere l'header con tutti i pezzi
-        #TODO
-
         # 1) Calcolare tutti i possibili piazzamenti nella board di tutte le
-        # rotazioni e riflessioni dei pezzi
-        #TODO
-
-        #    1.1) Per tutti i pezzi, prendere get_matrix_all_rows
-        #         e aggiungere la parte sinistra ad ogni riga (per i pezzi)
+        # rotazioni e riflessioni dei pezzi e aggiungere la parte sinistra
+        # ad ogni riga (per i pezzi)
         rows = []
         for n, piece in enumerate(pieces):
             left_part_row = tuple(1 if m == n else 0 for m in range(len(pieces)))
             rows.extend(self.get_matrix_all_rows(board, piece, left_part_row))
 
-        # 2) Costruire gli oggetti per l'algoritmo Dancing Links
+        # 2) Scrivere l'header con tutti i pezzi
+        header = ('ESA', 'L', 'N', 'P', 'U', 'V', 'Y', 'Z')
+        header += ('',) * (len(rows[0]) - len(header))
+
+        # 3) Costruire gli oggetti per l'algoritmo Dancing Links
         #TODO
 
-        # 3) Cercare la soluzione e stamparla
+        # 4) Cercare la soluzione e stamparla
         #TODO
 
         print(day, month)
