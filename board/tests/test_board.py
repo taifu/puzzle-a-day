@@ -1,6 +1,6 @@
 import unittest
 
-from ..board import Board, Pentomino
+from board import Board, Pentomino
 
 
 class TestMatrix(unittest.TestCase):
