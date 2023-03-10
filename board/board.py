@@ -1,3 +1,6 @@
+from dlx import Dlx
+
+
 class Pentomino:
     F = ((0, 1, 1),
          (1, 1, 0),
@@ -183,6 +186,7 @@ class Board:
         pieces = (self.ESA, Pentomino.L, Pentomino.N, Pentomino.P, Pentomino.U, Pentomino.V, Pentomino.Y, Pentomino.Z)
 
         # 0) Scrivere l'header con tutti i pezzi
+        header = ['ESA', 'L', 'N', 'P', 'U', 'V', 'Y', 'Z']
         #TODO
 
         # 1) Calcolare tutti i possibili piazzamenti nella board di tutte le
@@ -193,11 +197,13 @@ class Board:
         #         e aggiungere la parte sinistra ad ogni riga (per i pezzi)
         rows = []
         for n, piece in enumerate(pieces):
-            left_part_row = tuple(1 if m == n else 0 for m in range(len(pieces)))
-            rows.extend(self.get_matrix_all_rows(board, piece, left_part_row))
+            # left_part_row = tuple(1 if m == n else 0 for m in range(len(pieces)))
+            # rows.extend(self.get_matrix_all_rows(board, piece, left_part_row))
+            rows.extend(self.get_matrix_all_rows(board, piece))
 
         # 2) Costruire gli oggetti per l'algoritmo Dancing Links
         #TODO
+        dlx = Dlx(header, rows)
 
         # 3) Cercare la soluzione e stamparla
         #TODO
