@@ -62,8 +62,8 @@ class TestMatrix(unittest.TestCase):
                       (1, 1, 1, 0, 0, 0, 0), # Day 29-31
                       ))
 
-    def test_board_position_ESA(self):
-        positions = self.board.get_positions(self.board.board, self.board.ESA)
+    def test_board_position_O(self):
+        positions = self.board.get_positions(self.board.board, self.board.O)
         self.assertEqual(len(positions), 24)
         self.assertEqual(positions[0], (0, 0))
         self.assertEqual(positions[-1], (1, 4))
@@ -81,8 +81,8 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(positions[0], (0, 0))
         self.assertEqual(positions[-1], (4, 3))
 
-    def test_board_matrix_rows_ESA(self):
-        rows = self.board.get_matrix_rows(self.board.board, self.board.ESA)
+    def test_board_matrix_rows_O(self):
+        rows = self.board.get_matrix_rows(self.board.board, self.board.O)
         self.assertEqual(len(rows), 24)
         self.assertEqual(rows[0][:14], (1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1))
         self.assertFalse(any(rows[0][14:]))
@@ -91,13 +91,10 @@ class TestMatrix(unittest.TestCase):
         #self.assertEqual(rows[0][:9], (1, 1, 1, 0, 0, 0, 1, 1, 1))
         #self.assertFalse(any(rows[0][9:]))
 
-    def test_board_matrix_all_rows_ESA(self):
-        #TODO
-        rows = self.board.get_matrix_all_rows(self.board.board, self.board.ESA)
+    def test_board_matrix_all_rows_O(self):
+        rows = self.board.get_matrix_all_rows(self.board.board, self.board.O)
         self.assertEqual(len(rows), 48)
         self.assertEqual(rows[0][:14], (1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1))
         self.assertFalse(any(rows[0][14:]))
         self.assertEqual(rows[-1][33:], (1, 1, 1, 0, 0, 0, 0, 1, 1, 1))
         self.assertFalse(any(rows[-1][:33]))
-        #self.assertEqual(rows[0][:9], (1, 1, 1, 0, 0, 0, 1, 1, 1))
-        #self.assertFalse(any(rows[0][9:]))

@@ -1,3 +1,7 @@
+from collections import defaultdict
+from dlx import dlx
+
+
 class Pentomino:
     F = ((0, 1, 1),
          (1, 1, 0),
@@ -86,7 +90,7 @@ class Board:
                       (1, 1, 1, 1, 1, 1, 1), # Day 22-28
                       (1, 1, 1, 0, 0, 0, 0), # Day 29-31
                       )
-        self.ESA = ((1, 1),
+        self.O = ((1, 1),
                     (1, 1),
                     (1, 1))
 
@@ -178,28 +182,36 @@ class Board:
             board.append(tuple(row))
         return tuple(board)
 
-    def solve(self, day, month):
+    def solve(self, day, month, show=True, only_first=True):
         board = self.get_date(day, month)
-        pieces = (self.ESA, Pentomino.L, Pentomino.N, Pentomino.P, Pentomino.U, Pentomino.V, Pentomino.Y, Pentomino.Z)
 
         # 0) Scrivere l'header con tutti i pezzi
-        #TODO
+        header = ('O', 'L', 'N', 'P', 'U', 'V', 'Y', 'Z')
+        pieces = (self.O,) + tuple(getattr(Pentomino, name) for name in header[1:])
 
         # 1) Calcolare tutti i possibili piazzamenti nella board di tutte le
-        # rotazioni e riflessioni dei pezzi
-        #TODO
-
-        #    1.1) Per tutti i pezzi, prendere get_matrix_all_rows
-        #         e aggiungere la parte sinistra ad ogni riga (per i pezzi)
-        rows = []
+        # rotazioni e riflessioni dei pezzi, costruire gli oggetti per
+        # l'algoritmo Dancing Links velocizzato
+        # https://www.cs.mcgill.ca/~aassaf9/python/algorithm_x.html
+        Y = defaultdict(list)
+        X = defaultdict(set)
         for n, piece in enumerate(pieces):
-            left_part_row = tuple(1 if m == n else 0 for m in range(len(pieces)))
-            rows.extend(self.get_matrix_all_rows(board, piece, left_part_row))
+            prefix = header[n]
+            for m, row in enumerate(self.get_matrix_all_rows(board, piece)):
+                label = prefix + str(m)
+                for o, cell in enumerate(row):
+                    if cell:
+                        Y[label].append(o)
+                        X[o].add(label)
 
-        # 2) Costruire gli oggetti per l'algoritmo Dancing Links
-        #TODO
-
-        # 3) Cercare la soluzione e stamparla
-        #TODO
-
-        print(day, month)
+        # 2) Cercare la soluzione e stamparla
+        solutions = []
+        for solution in dlx.solve(X, Y):
+            if len(set(l[0] for l in solution)) == 8:
+                solutions.append(tuple((label[0], Y[label]) for label in solution))
+                if show:
+                    for a, b in solutions[-1]:
+                        print(a, b)
+                if only_first:
+                    break
+        return solutions
