@@ -166,6 +166,25 @@ class Board:
                 rows.append((left_part_row or ()) + tuple(row))
         return(rows)
 
+    def show(self, day, month, board, solution):
+        pos = 0
+        day_month = [day, month]
+        for y, row in enumerate(board):
+            strip = ""
+            for x, cell in enumerate(row):
+                cell_orig = self.board[y][x]
+                if cell_orig:
+                    if not cell:
+                        data = str(day_month.pop())
+                    else:
+                        for label, piece in solution:
+                            if pos in piece:
+                                data = label
+                                break
+                        pos += 1
+                    strip += f"{(' ' + data + '  ')[:4]}"
+            print(strip)
+
     def get_date(self, day, month):
         board = []
         for i, row in enumerate(self.board):
@@ -197,7 +216,8 @@ class Board:
         X = defaultdict(set)
         for n, piece in enumerate(pieces):
             prefix = header[n]
-            for m, row in enumerate(self.get_matrix_all_rows(board, piece)):
+            left_part_row = tuple(1 if m == n else 0 for m in range(len(pieces)))
+            for m, row in enumerate(self.get_matrix_all_rows(board, piece, left_part_row)):
                 label = prefix + str(m)
                 for o, cell in enumerate(row):
                     if cell:
@@ -206,12 +226,15 @@ class Board:
 
         # 2) Cercare la soluzione e stamparla
         solutions = []
-        for solution in dlx.solve(X, Y):
-            if len(set(l[0] for l in solution)) == 8:
-                solutions.append(tuple((label[0], Y[label]) for label in solution))
-                if show:
-                    for a, b in solutions[-1]:
-                        print(a, b)
-                if only_first:
-                    break
+        delta = len(header)
+        for count, solution in enumerate(dlx.solve(X, Y)):
+            if len(set(l[0] for l in solution)) != 8:
+                print("Wrong solution!")
+                continue
+            solutions.append(tuple((label[0], list(pos - delta for pos in Y[label][1:])) for label in solution))
+            if show:
+                self.show(day, month, board, solutions[-1])
+            if only_first:
+                break
+            print(f"========================= {count + 1}")
         return solutions
