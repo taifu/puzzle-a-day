@@ -236,5 +236,6 @@ class Board:
                 self.show(day, month, board, solutions[-1])
             if only_first:
                 break
-            print(f"========================= {count + 1}")
+            if show:
+                print(f"========================= {count + 1}")
         return solutions
