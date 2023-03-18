@@ -1,5 +1,4 @@
 from collections import defaultdict
-from dlx import dlx
 
 
 class Pentomino:
@@ -204,6 +203,7 @@ class Board:
         return tuple(board)
 
     def solve(self, day, month, show=True, only_first=True):
+        from dlx import dlx
         board = self.get_date(day, month)
 
         # 0) Scrivere l'header con tutti i pezzi
