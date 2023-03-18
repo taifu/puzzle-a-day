@@ -168,7 +168,9 @@ class Board:
 
     def show(self, day, month, board, solution):
         pos = 0
-        day_month = [day, month]
+        months = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+        day_month = [(' ' + str(day) + ' ')[:3], months[month]]
         for y, row in enumerate(board):
             strip = ""
             for x, cell in enumerate(row):
@@ -179,10 +181,10 @@ class Board:
                     else:
                         for label, piece in solution:
                             if pos in piece:
-                                data = label
+                                data = f" {label} "
                                 break
                         pos += 1
-                    strip += f"{(' ' + data + '  ')[:4]}"
+                    strip += f"{(data + '  ')[:4]}"
             print(strip)
 
     def get_date(self, day, month):
@@ -237,5 +239,5 @@ class Board:
             if only_first:
                 break
             if show:
-                print(f"========================= {count + 1}")
+                print(f"============================ {count + 1}")
         return solutions
