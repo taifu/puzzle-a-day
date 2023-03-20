@@ -5,14 +5,14 @@ def solve(X, Y, solution=[]):
         c = min(X, key=lambda c: len(X[c]))
         for r in list(X[c]):
             solution.append(r)
-            cols = select(X, Y, r)
+            cols = cover(X, Y, r)
             for s in solve(X, Y, solution):
                 yield s
-            deselect(X, Y, r, cols)
+            uncover(X, Y, r, cols)
             solution.pop()
 
 
-def select(X, Y, r):
+def cover(X, Y, r):
     cols = []
     for j in Y[r]:
         for i in X[j]:
@@ -23,7 +23,7 @@ def select(X, Y, r):
     return cols
 
 
-def deselect(X, Y, r, cols):
+def uncover(X, Y, r, cols):
     for j in reversed(Y[r]):
         X[j] = cols.pop()
         for i in X[j]:
